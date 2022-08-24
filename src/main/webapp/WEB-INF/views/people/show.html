@@ -5,18 +5,20 @@
     <title>Person</title>
 </head>
 <body>
+<h1 th:text="'Читатель №' + ${person.getId()}"></h1>
 <div>
-    <p th:text="${person.getId() + '. ' + person.getName() + ', ' + person.getAge()}">VALUE</p>
+    <p th:text="${person.getName() + ', ' + person.getYear()}">VALUE</p>
     <p th:text="${'Email: ' + person.getEmail()}">VALUE</p>
-    <p th:text="${'Address: ' + person.getAddress()}">VALUE</p>
+    <p th:text="${'Адрес: ' + person.getAddress()}">VALUE</p>
 </div>
 
 <br/>
 <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
-    <input type="submit" value="Edit"/>
+    <input type="submit" value="Редактировать читателя"/>
 </form>
+<br/>
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Delete"/>
+    <input type="submit" value="Удалить читателя"/>
 </form>
 </body>
 </html>

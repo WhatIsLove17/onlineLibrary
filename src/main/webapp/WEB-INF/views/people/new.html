@@ -5,21 +5,30 @@
     <title>Title</title>
 </head>
 <body>
-    <form th:method="POST" th:action="@{/people}" th:object="${person}">
-        <label for="name">Enter name:</label>
+<h1>Создание нового читателя:</h1>
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
+    <p>
+        <label for="name">Введите ФИО: </label>
         <input type="text" th:field="*{name}" id="name">
-        <div style="color: indianred" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
-        <label for="age">Enter age:</label>
-        <input type="number" th:field="*{age}" id="age">
-        <div style="color: indianred" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Error</div>
-        <label for="email">Enter email:</label>
+    <div style="color: indianred" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
+    </p>
+    <p>
+        <label for="age">Введите год рождения: </label>
+        <input type="number" th:field="*{year}" id="age">
+    <div style="color: indianred" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Error</div>
+    </p>
+    <p>
+        <label for="email">Введите email: </label>
         <input type="text" th:field="*{email}" id="email">
-        <div style="color: indianred" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
-        <label for="address">Enter address:</label>
+    <div style="color: indianred" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
+    </p>
+    <p>
+        <label for="address">Введите адрес: </label>
         <input type="text" th:field="*{address}" id="address">
-        <div style="color: indianred" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Error</div>
-        <br/>
-        <input type="submit" value="Create"/>
-    </form>
+    <div style="color: indianred" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Error</div>
+    </p>
+    <br/>
+    <input type="submit" value="Создать нового читателя"/>
+</form>
 </body>
 </html>

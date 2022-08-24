@@ -6,12 +6,13 @@
     <title>People</title>
 </head>
 <body>
+<h1>Читатели библиотеки:</h1>
 <div th:each="person : ${people}">
-    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ', ' + person.getAge()}">person</a>
+    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ', ' + person.getYear()}">person</a>
 </div>
 <br/>
 <form th:method="GET" th:action="@{/people/new}">
-    <input type="submit" value="Create"/>
+    <input type="submit" value="Добавить человека"/>
 </form>
 </body>
 </html>

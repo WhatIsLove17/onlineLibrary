@@ -21,31 +21,31 @@ public class PersonDAO {
     }
 
     public List<Person> index(){
-        return jdbcTemplate.query("SELECT * FROM people", new BeanPropertyRowMapper<>(Person.class));
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id != 0", new BeanPropertyRowMapper<>(Person.class));
     }
 
     public Optional<Person> show(String email){
-        return jdbcTemplate.query("SELECT * FROM people WHERE email=?", new Object[]{email},
+        return jdbcTemplate.query("SELECT * FROM Person WHERE email=?", new Object[]{email},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     public Person show(int id){
-        return jdbcTemplate.query("SELECT * FROM people WHERE id=?", new Object[]{id},
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id},
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
     public void save(Person person){
-        jdbcTemplate.update("INSERT INTO people(name, age, email, address) VALUES (?, ?, ?, ?)", person.getName(),
-                person.getAge(), person.getEmail(), person.getAddress());
+        jdbcTemplate.update("INSERT INTO Person(name, year, email, address) VALUES (?, ?, ?, ?)", person.getName(),
+                person.getYear(), person.getEmail(), person.getAddress());
     }
 
     public void update(Person updatedPerson, int id){
-        jdbcTemplate.update("UPDATE people SET id=?, name=?, age=?, email=?, address=? WHERE id=?",
-                updatedPerson.getId(), updatedPerson.getName(), updatedPerson.getAge(), updatedPerson.getEmail(),
+        jdbcTemplate.update("UPDATE Person SET name=?, year=?, email=?, address=? WHERE id=?",
+                updatedPerson.getName(), updatedPerson.getYear(), updatedPerson.getEmail(),
                 updatedPerson.getAddress(), id);
     }
 
     public void delete(int id){
-        jdbcTemplate.update("DELETE FROM people WHERE id=?", id);
+        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 }

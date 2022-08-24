@@ -7,6 +7,8 @@ import org.springframework.validation.Validator;
 import org.whatislove.library.dao.PersonDAO;
 import org.whatislove.library.models.Person;
 
+import java.util.Optional;
+
 @Component
 public class PersonValidator implements Validator {
     PersonDAO personDAO;
@@ -25,7 +27,9 @@ public class PersonValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
 
-        if (personDAO.show(person.getEmail()).isPresent())
-            errors.rejectValue("email", "", "This email has already registered");
+        Optional<Person> recievedPerson = personDAO.show(person.getEmail());
+        if (recievedPerson.isPresent())
+            if (recievedPerson.get().getId() != person.getId())
+                errors.rejectValue("email", "", "This email has already registered");
     }
 }
