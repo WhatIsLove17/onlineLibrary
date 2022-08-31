@@ -38,5 +38,5 @@ build/
 ### Mac OS ###
 .DS_Store
 
-src/main/resources/database.properties
 .idea/
+/src/main/resources/hibernate.properties

@@ -1,22 +1,47 @@
 package org.whatislove.library.models;
 
-import javax.validation.constraints.*;
 
+
+import jakarta.validation.constraints.*;
+
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "Person")
 public class Person {
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotEmpty
     @Size(min = 2, max = 30, message = "Name's size should be between 2 and 30 characters")
+    @Column(name = "name")
     private String name;
 
     @NotNull
     @Min(value = 1900, message = "Year should be more than 1900")
+    @Column(name = "year")
     private int year;
 
     @Email(message = "Email should be valid")
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "address")
     @Pattern(regexp = "[A-ZА-Я][a-zа-я]+, [A-ZА-Я][a-zа-я]+, \\d{6}", message = "Address should be in this format: Country, City, 123456")
     private String address;
+
+
+    public Person(){}
+
+    public Person(String name, int year, String email, String address) {
+        this.name = name;
+        this.year = year;
+        this.email = email;
+        this.address = address;
+    }
+
 
     public int getYear() {
         return year;
@@ -26,15 +51,6 @@ public class Person {
         this.year = year;
     }
 
-    public Person(){}
-
-    public Person(int id, String name, int year, String email, String address) {
-        this.id = id;
-        this.name = name;
-        this.year = year;
-        this.email = email;
-        this.address = address;
-    }
 
     public int getId() {
         return id;

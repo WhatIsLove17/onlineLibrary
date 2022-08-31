@@ -8,6 +8,7 @@ import org.whatislove.library.models.Book;
 
 import java.util.List;
 import java.util.Optional;
+/*
 
 @Component
 public class BookDAO {
@@ -46,3 +47,4 @@ public class BookDAO {
         jdbcTemplate.update("DELETE FROM book WHERE id=?", id);
     }
 }
+*/

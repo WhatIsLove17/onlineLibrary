@@ -4,18 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.whatislove.library.dao.PersonDAO;
 import org.whatislove.library.models.Person;
+import org.whatislove.library.services.PeopleService;
 
-import java.util.Optional;
 
 @Component
 public class PersonValidator implements Validator {
-    PersonDAO personDAO;
+    final PeopleService peopleService;
 
     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
 
     @Override
@@ -25,11 +24,6 @@ public class PersonValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Person person = (Person) target;
 
-        Optional<Person> recievedPerson = personDAO.show(person.getEmail());
-        if (recievedPerson.isPresent())
-            if (recievedPerson.get().getId() != person.getId())
-                errors.rejectValue("email", "", "This email has already registered");
     }
 }

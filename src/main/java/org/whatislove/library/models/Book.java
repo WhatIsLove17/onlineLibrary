@@ -1,20 +1,36 @@
 package org.whatislove.library.models;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "Book")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "user_id")
     private int userId;
+
+    @Column(name = "name")
     @Size(min = 1, max = 50)
     private String name;
+
+    @Column(name = "author")
     @Size(min = 2, max = 50)
     private String author;
+
+    @Column(name = "year")
     @Min(value = 1900)
     private int year;
 
-    public Book(int id, int user_id, String name, String author, int year) {
-        this.id = id;
+    public Book(int user_id, String name, String author, int year) {
         this.userId = user_id;
         this.name = name;
         this.author = author;

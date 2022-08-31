@@ -1,51 +1,69 @@
 package org.whatislove.library.dao;
 
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.whatislove.library.models.Person;
 
 import java.util.List;
-import java.util.Optional;
 
+/*
 
 @Component
 public class PersonDAO {
     private final JdbcTemplate jdbcTemplate;
+    private final SessionFactory sessionFactory;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
+    public PersonDAO(JdbcTemplate jdbcTemplate, SessionFactory sessionFactory) {
         this.jdbcTemplate = jdbcTemplate;
+        this.sessionFactory = sessionFactory;
     }
 
-    public List<Person> index(){
-        return jdbcTemplate.query("SELECT * FROM Person WHERE id != 0", new BeanPropertyRowMapper<>(Person.class));
+
+    @Transactional(readOnly = true)
+    public List<Person> index() {
+        Session session = sessionFactory.getCurrentSession();
+
+        return session.createQuery("SELECT p FROM Person p WHERE p.id <> 0", Person.class).getResultList();
     }
 
-    public Optional<Person> show(String email){
-        return jdbcTemplate.query("SELECT * FROM Person WHERE email=?", new Object[]{email},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    @Transactional(readOnly = true)
+    public Person show(String email) {
+        Session session = sessionFactory.getCurrentSession();
+        return null;
     }
 
-    public Person show(int id){
-        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+    @Transactional(readOnly = true)
+    public Person show(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("SELECT p FROM Person p WHERE p.id=:id", Person.class);
+        query.setParameter("id", id);
+        return (Person) query.getSingleResult();
     }
 
-    public void save(Person person){
+    @Transactional
+    public void save(Person person) {
+        Session session = sessionFactory.getCurrentSession();
+        */
+/*Query query = session.createQuery("")
         jdbcTemplate.update("INSERT INTO Person(name, year, email, address) VALUES (?, ?, ?, ?)", person.getName(),
-                person.getYear(), person.getEmail(), person.getAddress());
+                person.getYear(), person.getEmail(), person.getAddress());*//*
+
     }
 
-    public void update(Person updatedPerson, int id){
+    public void update(Person updatedPerson, int id) {
         jdbcTemplate.update("UPDATE Person SET name=?, year=?, email=?, address=? WHERE id=?",
                 updatedPerson.getName(), updatedPerson.getYear(), updatedPerson.getEmail(),
                 updatedPerson.getAddress(), id);
     }
 
-    public void delete(int id){
+    public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 }
+*/
