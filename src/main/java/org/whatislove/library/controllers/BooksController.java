@@ -37,7 +37,7 @@ public class BooksController {
         Book book = booksService.findOne(id);
         model.addAttribute("book", book);
         model.addAttribute("persons", peopleService.findAll());
-        model.addAttribute("person", peopleService.findOne(book.getUserId()));
+        model.addAttribute("person", peopleService.findByBook(book));
         return "books/show";
     }
 
@@ -51,7 +51,7 @@ public class BooksController {
     public String createBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "books/new";
-        book.setUserId(0);
+        book.setOwner(null);
         booksService.save(book);
         return "redirect:/books";
     }
@@ -67,13 +67,13 @@ public class BooksController {
                              BindingResult bindingResult) {
         Book recievedBook = booksService.findOne(id);
         if (book.getName() == null) {
-            recievedBook.setUserId(book.getUserId());
+            recievedBook.setOwner(peopleService.findByBook(book));
             booksService.update(id, recievedBook);
         }
         else {
             if (bindingResult.hasErrors())
                 return "books/edit";
-            book.setUserId(recievedBook.getUserId());
+            book.setOwner(recievedBook.getOwner());
             booksService.update(id, book);
         }
         return "redirect:/books/" + book.getId();

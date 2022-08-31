@@ -15,9 +15,6 @@ public class Book {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "user_id")
-    private int userId;
-
     @Column(name = "name")
     @Size(min = 1, max = 50)
     private String name;
@@ -30,14 +27,25 @@ public class Book {
     @Min(value = 1900)
     private int year;
 
-    public Book(int user_id, String name, String author, int year) {
-        this.userId = user_id;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Person owner;
+
+    public Book(String name, String author, int year) {
         this.name = name;
         this.author = author;
         this.year = year;
     }
 
     public Book() {
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 
     public int getId() {
@@ -48,13 +56,6 @@ public class Book {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int user_id) {
-        this.userId = user_id;
-    }
 
     public String getName() {
         return name;

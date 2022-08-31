@@ -5,6 +5,7 @@ package org.whatislove.library.models;
 import jakarta.validation.constraints.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -32,6 +33,8 @@ public class Person {
     @Pattern(regexp = "[A-ZА-Я][a-zа-я]+, [A-ZА-Я][a-zа-я]+, \\d{6}", message = "Address should be in this format: Country, City, 123456")
     private String address;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
+    private List<Book> personBooks;
 
     public Person(){}
 
@@ -42,6 +45,13 @@ public class Person {
         this.address = address;
     }
 
+    public List<Book> getPersonBooks() {
+        return personBooks;
+    }
+
+    public void setPersonBooks(List<Book> personBooks) {
+        this.personBooks = personBooks;
+    }
 
     public int getYear() {
         return year;

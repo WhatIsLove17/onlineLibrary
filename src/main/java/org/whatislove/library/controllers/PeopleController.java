@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.whatislove.library.models.Person;
+import org.whatislove.library.services.BooksService;
 import org.whatislove.library.services.PeopleService;
 import org.whatislove.library.util.PersonValidator;
 
@@ -15,12 +16,14 @@ import org.whatislove.library.util.PersonValidator;
 @RequestMapping("/people")
 public class PeopleController {
     private final PeopleService peopleService;
+    private final BooksService booksService;
     private final PersonValidator personValidator;
 
 
     @Autowired
-    public PeopleController(PeopleService peopleService, PersonValidator personValidator) {
+    public PeopleController(PeopleService peopleService, BooksService booksService, PersonValidator personValidator) {
         this.peopleService = peopleService;
+        this.booksService = booksService;
         this.personValidator = personValidator;
     }
 
@@ -32,8 +35,9 @@ public class PeopleController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model){
-        model.addAttribute("person", peopleService.findOne(id));
-        //model.addAttribute("books", bookDAO.getPersonBooks(id));
+        Person person = peopleService.findOne(id);
+        model.addAttribute("person", person);
+        model.addAttribute("books", booksService.findByOwner(person));
         return "people/show";
     }
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.whatislove.library.models.Book;
+import org.whatislove.library.models.Person;
 import org.whatislove.library.repositories.BooksRepository;
 
 import java.util.List;
@@ -25,6 +26,10 @@ public class BooksService {
 
     public Book findOne(int id){
         return booksRepository.findById(id).orElse(null);
+    }
+
+    public List<Book> findByOwner(Person owner){
+        return booksRepository.findByOwner(owner);
     }
 
     @Transactional

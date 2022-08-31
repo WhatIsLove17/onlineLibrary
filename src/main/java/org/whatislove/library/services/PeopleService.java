@@ -3,6 +3,7 @@ package org.whatislove.library.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.whatislove.library.models.Book;
 import org.whatislove.library.models.Person;
 import org.whatislove.library.repositories.PeopleRepository;
 
@@ -26,6 +27,10 @@ public class PeopleService {
 
     public Person findOne(int id){
         return peopleRepository.findById(id).orElse(null);
+    }
+
+    public Person findByBook(Book book){
+        return peopleRepository.findByPersonBooks(book);
     }
 
     @Transactional
