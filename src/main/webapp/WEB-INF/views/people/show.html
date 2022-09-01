@@ -7,7 +7,7 @@
 <body>
 <h1 th:text="'Читатель №' + ${person.getId()}"></h1>
 <div>
-    <p th:text="${person.getName() + ', ' + person.getYear()}">VALUE</p>
+    <p th:text="${person.getName() + ', ' + person.getBirthDate()}">VALUE</p>
     <p th:text="${'Email: ' + person.getEmail()}">VALUE</p>
     <p th:text="${'Адрес: ' + person.getAddress()}">VALUE</p>
 </div>

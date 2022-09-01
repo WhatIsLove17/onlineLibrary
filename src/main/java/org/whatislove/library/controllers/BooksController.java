@@ -66,8 +66,8 @@ public class BooksController {
     public String updateBook(@ModelAttribute("book") Book book, @PathVariable("id") int id,
                              BindingResult bindingResult) {
         Book recievedBook = booksService.findOne(id);
-        if (book.getName() == null) {
-            recievedBook.setOwner(peopleService.findByBook(book));
+        if (book.getOwner() == null) {
+            recievedBook.setOwner(null);
             booksService.update(id, recievedBook);
         }
         else {

@@ -10,17 +10,17 @@
     <p th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">VALUE</p>
 </div>
 
-<div th:if="${book.getUserId() == 0}">
+<div th:if="${book.getOwner() == null}">
     <b>Эта книга свободна. Кому её назначить?</b>
     <form th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}">
         <label for="userId">Выберите человека</label>
-        <select th:object="${book}" th:field="*{userId}" id="userId">
-            <option th:each="person : ${persons}" th:value="${person.getId()}" th:text="${person.getName()}"></option>
+        <select th:object="${book}" th:field="*{owner}" id="userId">
+            <option th:each="person : ${persons}" th:value="${person}" th:text="${person.getName()}"></option>
         </select>
         <input type="submit" value="Назначить книгу">
     </form>
 </div>
-<div th:unless="${book.getUserId() == 0}">
+<div th:unless="${book.getOwner() == null}">
     <label for="toFree" th:text="${'Книга сейчас у: ' + person.getName()}"></label><br/>
     <form id="toFree" th:method="PATCH" th:action="@{/books/{id}(id=${book.getId()})}">
         <input type="submit" value="Освободить книгу"/>

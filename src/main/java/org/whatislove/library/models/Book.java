@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -27,6 +28,10 @@ public class Book {
     @Min(value = 1900)
     private int year;
 
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Person owner;
@@ -38,6 +43,14 @@ public class Book {
     }
 
     public Book() {
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Person getOwner() {

@@ -3,8 +3,10 @@ package org.whatislove.library.models;
 
 
 import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,10 +22,15 @@ public class Person {
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Min(value = 1900, message = "Year should be more than 1900")
-    @Column(name = "year")
-    private int year;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_of_birth")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthDate;
+
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     @Email(message = "Email should be valid")
     @Column(name = "email")
@@ -38,9 +45,10 @@ public class Person {
 
     public Person(){}
 
-    public Person(String name, int year, String email, String address) {
+    public Person(String name, Date birthDate, Date createdAt, String email, String address) {
         this.name = name;
-        this.year = year;
+        this.birthDate = birthDate;
+        this.createdAt = createdAt;
         this.email = email;
         this.address = address;
     }
@@ -53,14 +61,21 @@ public class Person {
         this.personBooks = personBooks;
     }
 
-    public int getYear() {
-        return year;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public int getId() {
         return id;

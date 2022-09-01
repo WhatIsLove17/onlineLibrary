@@ -13,9 +13,9 @@
     <div style="color: indianred" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
     </p>
     <p>
-        <label for="age">Введите год рождения: </label>
-        <input type="number" th:field="*{year}" id="age">
-    <div style="color: indianred" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Error</div>
+        <label for="age">Введите дату рождения: </label>
+        <input type="date" th:field="*{birthDate}" id="age">
+    <div style="color: indianred" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">Error</div>
     </p>
     <p>
         <label for="email">Введите email: </label>

@@ -7,6 +7,7 @@ import org.whatislove.library.models.Book;
 import org.whatislove.library.models.Person;
 import org.whatislove.library.repositories.BooksRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,6 +35,7 @@ public class BooksService {
 
     @Transactional
     public void save(Book book){
+        book.setCreatedAt(new Date());
         booksRepository.save(book);
     }
 

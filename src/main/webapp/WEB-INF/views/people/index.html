@@ -8,7 +8,7 @@
 <body>
 <h1>Читатели библиотеки:</h1>
 <div th:each="person : ${people}">
-    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ', ' + person.getYear()}">person</a>
+    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ', ' + person.getBirthDate()}">person</a>
 </div>
 <br/>
 <form th:method="GET" th:action="@{/people/new}">
