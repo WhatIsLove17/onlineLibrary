@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.whatislove.library.dao.PersonDAO;
 import org.whatislove.library.models.Person;
 import org.whatislove.library.services.BooksService;
 import org.whatislove.library.services.PeopleService;
@@ -17,18 +18,22 @@ import org.whatislove.library.util.PersonValidator;
 public class PeopleController {
     private final PeopleService peopleService;
     private final BooksService booksService;
+
+    private final PersonDAO personDAO;
     private final PersonValidator personValidator;
 
 
     @Autowired
-    public PeopleController(PeopleService peopleService, BooksService booksService, PersonValidator personValidator) {
+    public PeopleController(PeopleService peopleService, BooksService booksService, PersonDAO personDAO, PersonValidator personValidator) {
         this.peopleService = peopleService;
         this.booksService = booksService;
+        this.personDAO = personDAO;
         this.personValidator = personValidator;
     }
 
     @GetMapping
     public String index(Model model){
+        //personDAO.testNPlus1();
         model.addAttribute("people", peopleService.findAll());
         return "people/index";
     }

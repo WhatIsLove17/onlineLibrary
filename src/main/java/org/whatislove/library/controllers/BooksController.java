@@ -26,11 +26,27 @@ public class BooksController {
         this.peopleService = peopleService;
     }
 
+
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model, @RequestParam(required = false, defaultValue = "0") int books_per_page,
+                        @RequestParam(required = false, defaultValue = "1") int page,
+                        @RequestParam(required = false, defaultValue = "false") boolean sort_by_year,
+                        @RequestParam(required = false) String book_name) {
+        if (book_name != null){
+            model.addAttribute("books", booksService.findAllBooksByName(book_name));
+        }
+        else {
+            if (books_per_page == 0)
+                if (sort_by_year)
+                    model.addAttribute("books", booksService.findAll(sort_by_year));
+                else
+                    model.addAttribute("books", booksService.findAll());
+            else
+                model.addAttribute("books", booksService.findAll(books_per_page, page, sort_by_year));
+        }
         return "books/index";
     }
+
 
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable("id") int id) {
@@ -69,8 +85,7 @@ public class BooksController {
         if (book.getOwner() == null) {
             recievedBook.setOwner(null);
             booksService.update(id, recievedBook);
-        }
-        else {
+        } else {
             if (bindingResult.hasErrors())
                 return "books/edit";
             book.setOwner(recievedBook.getOwner());
@@ -80,7 +95,7 @@ public class BooksController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteBook(@PathVariable("id") int id){
+    public String deleteBook(@PathVariable("id") int id) {
         booksService.delete(id);
         return "redirect:/books";
     }

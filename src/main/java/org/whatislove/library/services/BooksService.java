@@ -1,6 +1,9 @@
 package org.whatislove.library.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.whatislove.library.models.Book;
@@ -20,33 +23,50 @@ public class BooksService {
         this.booksRepository = booksRepository;
     }
 
-    public List<Book> findAll(){
+    public List<Book> findAll() {
         return booksRepository.findAll();
     }
 
+    public Page<Book> findAll(int books_per_page, int page, boolean sort_by_year) {
+        if (sort_by_year)
+            return booksRepository.findAll(PageRequest.of(page, books_per_page, Sort.by("year")));
+        else
+            return booksRepository.findAll(PageRequest.of(page, books_per_page));
+    }
 
-    public Book findOne(int id){
+    public List<Book> findAll(boolean sort_by_year){
+        if (sort_by_year)
+            return booksRepository.findAll(Sort.by("year"));
+        else
+            return booksRepository.findAll();
+    }
+
+    public List<Book> findAllBooksByName(String bookName){
+        return booksRepository.findAllByNameStartingWith(bookName);
+    }
+
+    public Book findOne(int id) {
         return booksRepository.findById(id).orElse(null);
     }
 
-    public List<Book> findByOwner(Person owner){
+    public List<Book> findByOwner(Person owner) {
         return booksRepository.findByOwner(owner);
     }
 
     @Transactional
-    public void save(Book book){
-        book.setCreatedAt(new Date());
+    public void save(Book book) {
+        book.setTakenAt(new Date());
         booksRepository.save(book);
     }
 
     @Transactional
-    public void update(int id, Book updatedBook){
+    public void update(int id, Book updatedBook) {
         updatedBook.setId(id);
         booksRepository.save(updatedBook);
     }
 
     @Transactional
-    public void delete(int id){
+    public void delete(int id) {
         booksRepository.deleteById(id);
     }
 }

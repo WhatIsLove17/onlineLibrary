@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -107,5 +108,20 @@ public class Person {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id && name.equals(person.name) && birthDate.equals(person.birthDate) &&
+                createdAt.equals(person.createdAt) && Objects.equals(email, person.email) &&
+                Objects.equals(address, person.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, birthDate, createdAt, email, address);
     }
 }

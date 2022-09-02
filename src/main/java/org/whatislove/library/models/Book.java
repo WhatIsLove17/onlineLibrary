@@ -28,13 +28,16 @@ public class Book {
     @Min(value = 1900)
     private int year;
 
-    @Column(name = "created_at")
+    @Column(name = "taken_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private Date takenAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Person owner;
+
+    @Transient
+    private boolean isOverdue;
 
     public Book(String name, String author, int year) {
         this.name = name;
@@ -45,12 +48,16 @@ public class Book {
     public Book() {
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public boolean isOverdue() {
+        return new Date().getTime() - takenAt.getTime() > 10 * 24 * 60 * 60 * 1000;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public Date getTakenAt() {
+        return takenAt;
+    }
+
+    public void setTakenAt(Date takenAt) {
+        this.takenAt = takenAt;
     }
 
     public Person getOwner() {

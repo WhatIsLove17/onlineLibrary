@@ -2,68 +2,34 @@ package org.whatislove.library.dao;
 
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.whatislove.library.models.Person;
 
-import java.util.List;
+import javax.persistence.EntityManager;
+import java.util.HashSet;
+import java.util.Set;
 
-/*
 
 @Component
 public class PersonDAO {
-    private final JdbcTemplate jdbcTemplate;
-    private final SessionFactory sessionFactory;
+
+    /*private final EntityManager entityManager;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate, SessionFactory sessionFactory) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.sessionFactory = sessionFactory;
-    }
-
-
-    @Transactional(readOnly = true)
-    public List<Person> index() {
-        Session session = sessionFactory.getCurrentSession();
-
-        return session.createQuery("SELECT p FROM Person p WHERE p.id <> 0", Person.class).getResultList();
+    public PersonDAO(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Transactional(readOnly = true)
-    public Person show(String email) {
-        Session session = sessionFactory.getCurrentSession();
-        return null;
-    }
+    public void testNPlus1(){
+        Session session = entityManager.unwrap(Session.class);
 
-    @Transactional(readOnly = true)
-    public Person show(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("SELECT p FROM Person p WHERE p.id=:id", Person.class);
-        query.setParameter("id", id);
-        return (Person) query.getSingleResult();
-    }
+        Set<Person> people = new HashSet<>(
+                session.createQuery("SELECT p FROM Person p LEFT JOIN FETCH p.personBooks").getResultList());
 
-    @Transactional
-    public void save(Person person) {
-        Session session = sessionFactory.getCurrentSession();
-        */
-/*Query query = session.createQuery("")
-        jdbcTemplate.update("INSERT INTO Person(name, year, email, address) VALUES (?, ?, ?, ?)", person.getName(),
-                person.getYear(), person.getEmail(), person.getAddress());*//*
-
-    }
-
-    public void update(Person updatedPerson, int id) {
-        jdbcTemplate.update("UPDATE Person SET name=?, year=?, email=?, address=? WHERE id=?",
-                updatedPerson.getName(), updatedPerson.getYear(), updatedPerson.getEmail(),
-                updatedPerson.getAddress(), id);
-    }
-
-    public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
-    }
+        for(Person person : people)
+            System.out.println(person.getName() + ": " + person.getPersonBooks());
+    }*/
 }
-*/
